@@ -2,18 +2,39 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
+    [SerializeField] LayerMask groundMask;
+    private float groundDistance;
+    private Vector3 worldPosition;
+    private Ray ray;
+    private RaycastHit hitData;
+    public bool isGrounded;
+    [SerializeField] float speed;
+    private Vector3 gravity;
 
-    [SerializeField] Camera camera;
+    private TerrainCollider terrainCollider;
+    private CharacterController controller;
+    [SerializeField] Camera cam;
+    
 
-    private Vector3 mousePosition;
 
-    public float speed = 6f;
-
+    private void Start()
+    {
+        controller = transform.GetComponent<CharacterController>();
+        terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
+        gravity = new Vector3(0, -10, 0);
+        groundDistance = controller.radius;
+    }
 
     void Update()
     {
-        MovePlayer();
+        isGrounded = Physics.CheckSphere(transform.position, groundDistance, groundMask);
+
+        if (isGrounded)
+        {
+            MovePlayer();
+        }
+        else
+        controller.Move(gravity * Time.deltaTime);
 
         ChangeRotation();
     }
@@ -33,17 +54,16 @@ public class PlayerMovement : MonoBehaviour
 
     void ChangeRotation()
     {
-        TerrainCollider terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>(); ;
-        Vector3 worldPosition;
-        Ray ray;
-
-        ray = camera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitData;
+        ray = cam.ScreenPointToRay(Input.mousePosition);
 
         if (terrainCollider.Raycast(ray, out hitData, 1000))
         {
             worldPosition = hitData.point;
-            transform.LookAt(worldPosition);
+            worldPosition.y = transform.position.y;
+            transform.LookAt(worldPosition, Vector3.up);
         }
     }
+
+  
+
 }
