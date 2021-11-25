@@ -21,13 +21,13 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = transform.GetComponent<CharacterController>();
         terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
-        gravity = new Vector3(0, -10, 0);
-        groundDistance = controller.radius;
+        gravity = new Vector3(0, -8, 0);
+        groundDistance = controller.skinWidth;
     }
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(transform.position, groundDistance, groundMask);
+        isGrounded = Physics.CheckSphere(transform.position, groundDistance*2, groundMask);
 
         if (isGrounded)
         {
