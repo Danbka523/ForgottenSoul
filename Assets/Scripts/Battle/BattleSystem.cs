@@ -1,15 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using System.Collections.Generic;
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WIN, LOSE };
+public enum Actions { DAMAGE, BLOCK, MISS, HEAL, FIRE, FREEZE }
 
 public class BattleSystem : MonoBehaviour
 {   //UI
-    //public Button physAttack;
     public TextMeshProUGUI historyDialog;
+    public TextMeshProUGUI turnDialog;
+    private List<string> historyMSGs;
+    private int maxMSGs;
 
     //Objects
     public GameObject playerPrefab;
@@ -23,9 +25,12 @@ public class BattleSystem : MonoBehaviour
     public BattleState state;
     public int roundCounter;
 
+    private int realDamage;
 
     void Start()
     {
+        historyMSGs = new List<string>();
+        maxMSGs = 5;
         state = BattleState.START;
         playerUnit = playerPrefab.GetComponent<Unit>();
         enemyUnit = enemyPrefab.GetComponent<Unit>();
@@ -45,7 +50,10 @@ public class BattleSystem : MonoBehaviour
         CheckFire();
         CheckFreeze();
         if (state == BattleState.PLAYERTURN)
+        {
+            turnDialog.text = $"Current turn:{playerUnit.unitName}";
             roundCounter++;
+        }
         if (playerUnit.currentHp == 0)
         {
             state = BattleState.LOSE;
@@ -57,31 +65,34 @@ public class BattleSystem : MonoBehaviour
             EndBattle();
         }
         if (state == BattleState.ENEMYTURN)
+        {
+            turnDialog.text = $"Current turn:{enemyUnit.unitName}";
             StartCoroutine(EnemyTurn());
+        }
     }
 
-    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    //обычная атака
     public void PhysAttack()
     {
         Actions action = Actions.DAMAGE;
         if (state == BattleState.PLAYERTURN)
         {
-            enemyUnit.DealPhysDamage(playerUnit.damage);
-            StartCoroutine(ChangeDialog(action, playerUnit.name, enemyUnit.name, playerUnit.damage));
+            enemyUnit.DealPhysDamage(playerUnit.damage,out realDamage);
+            ChangeDialog(action, playerUnit.unitName, enemyUnit.unitName, realDamage);
             state = BattleState.ENEMYTURN;
             UnitTurn();
         }
         else if (state == BattleState.ENEMYTURN)
         {
-            playerUnit.DealPhysDamage(enemyUnit.damage);
-            StartCoroutine(ChangeDialog(action, enemyUnit.name, playerUnit.name, enemyUnit.damage));
+            playerUnit.DealPhysDamage(enemyUnit.damage,out realDamage);
+            ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, realDamage);
             state = BattleState.PLAYERTURN;
             UnitTurn();
         }
         else
             return;
     }
-    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (wip)
+    //огненная атака (wip)
     //fire
     //========================//
     public void FireAttack()
@@ -89,15 +100,15 @@ public class BattleSystem : MonoBehaviour
         Actions action = Actions.DAMAGE;
         if (state == BattleState.PLAYERTURN)
         {
-            enemyUnit.DealFireDamage(playerUnit.damage, roundCounter);
-            StartCoroutine(ChangeDialog(action, playerUnit.name, enemyUnit.name, playerUnit.damage));
+            enemyUnit.DealFireDamage(playerUnit.damage, roundCounter, out realDamage);
+            ChangeDialog(action, playerUnit.unitName, enemyUnit.unitName, realDamage);
             state = BattleState.ENEMYTURN;
             UnitTurn();
         }
         else if (state == BattleState.ENEMYTURN)
         {
-            playerUnit.DealFireDamage(enemyUnit.damage, roundCounter);
-            StartCoroutine(ChangeDialog(action, enemyUnit.name, playerUnit.name, playerUnit.damage));
+            playerUnit.DealFireDamage(enemyUnit.damage, roundCounter,out realDamage);
+            ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName,realDamage);
             state = BattleState.PLAYERTURN;
             UnitTurn();
         }
@@ -107,21 +118,21 @@ public class BattleSystem : MonoBehaviour
 
     private void CheckFire()
     {
-        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        //проверка игрока
         if (playerUnit.isFired)
         {
             playerUnit.DealDamage(8);
-            ChangeDialog(Actions.FIRE, "", playerUnit.name);
+            ChangeDialog(Actions.FIRE, "", playerUnit.unitName);
             if (roundCounter - playerUnit.negativeEffectRound == 3)
             {
                 playerUnit.isFired = false;
                 playerUnit.isNegatived = false;
             }
         }
-        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        //проверка противнкиа
         if (enemyUnit.isFired)
         {
-            ChangeDialog(Actions.FIRE, "", enemyUnit.name);
+            ChangeDialog(Actions.FIRE, "", enemyUnit.unitName);
             enemyUnit.DealDamage(8);
             if (roundCounter - enemyUnit.negativeEffectRound == 3)
             {
@@ -134,7 +145,7 @@ public class BattleSystem : MonoBehaviour
     //========================//
 
 
-    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ(wip)
+    //ледяная атака(wip)
     //ice
     //========================//
     public void IceAttack()
@@ -142,15 +153,15 @@ public class BattleSystem : MonoBehaviour
         Actions action = Actions.DAMAGE;
         if (state == BattleState.PLAYERTURN)
         {
-            enemyUnit.DealIceDamage(playerUnit.damage, roundCounter);
-            StartCoroutine(ChangeDialog(action, playerUnit.name, enemyUnit.name, playerUnit.damage));
+            enemyUnit.DealIceDamage(playerUnit.damage, roundCounter,out realDamage);
+            ChangeDialog(action, playerUnit.unitName, enemyUnit.unitName, realDamage);
             state = BattleState.ENEMYTURN;
             UnitTurn();
         }
         else if (state == BattleState.ENEMYTURN)
         {
-            playerUnit.DealIceDamage(enemyUnit.damage, roundCounter);
-            StartCoroutine(ChangeDialog(action, enemyUnit.name, playerUnit.name, playerUnit.damage));
+            playerUnit.DealIceDamage(enemyUnit.damage, roundCounter,out realDamage);
+            ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, realDamage);
             state = BattleState.PLAYERTURN;
             UnitTurn();
         }
@@ -160,7 +171,7 @@ public class BattleSystem : MonoBehaviour
 
     private void CheckFreeze()
     {
-        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        //проверка игрока
         if (playerUnit.isFreezed && state == BattleState.PLAYERTURN)
         {
             state = BattleState.ENEMYTURN;
@@ -170,7 +181,7 @@ public class BattleSystem : MonoBehaviour
                 playerUnit.isNegatived = false;
             }
         }
-        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        //проверка противнкиа
         if (enemyUnit.isFreezed && state == BattleState.ENEMYTURN)
         {
             state = BattleState.PLAYERTURN;
@@ -187,7 +198,7 @@ public class BattleSystem : MonoBehaviour
 
 
 
-    //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (wip)
+    //ход противника (wip)
     //enemy
     //========================//
     IEnumerator EnemyTurn()
@@ -205,7 +216,7 @@ public class BattleSystem : MonoBehaviour
         ChangeDialog();
 
     }
-    IEnumerator ChangeDialog(Actions action, string from = "", string to = "", int hp = 0)
+    private void ChangeDialog(Actions action, string from = "", string to = "", int hp = 0)
     {
         string str = "";
         switch (action)
@@ -214,10 +225,10 @@ public class BattleSystem : MonoBehaviour
                 str = $"{from} damaged {to} on {hp} hp\n";
                 break;
             case Actions.FIRE:
-                str = $"{from} is on fire\n";
+                str = $"{to} is on fire\n";
                 break;
             case Actions.FREEZE:
-                str = $"{from} is freese\n";
+                str = $"{to} is freese\n";
                 break;
             case Actions.HEAL:
                 str = $"{from} healed {to} on {hp} hp\n";
@@ -225,9 +236,13 @@ public class BattleSystem : MonoBehaviour
             default:
                 break;
         }
+        historyMSGs.Add(str);
         historyDialog.text += str;
-        yield return new WaitForSeconds(3.5f);
-        historyDialog.text = "Battle log:\n";
+        if (historyMSGs.Count >= maxMSGs) {
+            historyDialog.text=historyDialog.text.Remove(historyDialog.text.IndexOf(historyMSGs[0]), historyMSGs[0].Length);
+            historyMSGs.Remove(historyMSGs[0]);
+            historyDialog.ForceMeshUpdate();
+        }
     }
 
     private void ChangeDialog()

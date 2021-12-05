@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     //private int maxDefense = 30;
 
     public bool isParalysed;
-    public bool isFreezed;
+    public bool isFreezed;  
     public bool isFired;
     public bool isNegatived;
    
@@ -26,8 +26,9 @@ public class Unit : MonoBehaviour
     public int negativeEffectRound;
 
     //обынчый урон
-    public void DealPhysDamage(int amount, int percentBoost=0) {
-        int currentDMG = amount + amount * percentBoost / 100;
+    public void DealPhysDamage(int amount, out int dmg, int percentBoost = 0) {
+        int currentDMG = amount + amount * percentBoost / 100+Random.Range(-5, 6);
+        dmg=currentDMG;
         currentHp -= (currentDMG - currentDMG * defense / 100);
         if (currentHp < 0) {
             currentHp = 0;
@@ -36,8 +37,8 @@ public class Unit : MonoBehaviour
     }
 
     //огненный урон
-    public void DealFireDamage(int amount,int curRound) {
-        DealPhysDamage(amount);
+    public void DealFireDamage(int amount,int curRound, out int dmg) {
+        DealPhysDamage(amount,out dmg);
         if (Random.Range(1, 101) >= 92 && !isNegatived)
         {
             isFired = true;
@@ -47,9 +48,9 @@ public class Unit : MonoBehaviour
     }
 
     //ледяной урон
-    public void DealIceDamage(int amount, int curRound)
+    public void DealIceDamage(int amount, int curRound, out int dmg)
     {
-        DealPhysDamage(amount);
+        DealPhysDamage(amount,out dmg);
         if (Random.Range(1, 101) >= 92 && !isNegatived)
         {
             isFreezed = true;
