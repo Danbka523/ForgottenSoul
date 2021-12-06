@@ -11,6 +11,8 @@ public class ShootingScript : MonoBehaviour
     private Vector3 lastPos;
     private HealthEnemy _health;
 
+    public Unit playerUnit;
+
     private void Awake()
     {
         lastPos = transform.position;
@@ -30,7 +32,7 @@ public class ShootingScript : MonoBehaviour
             _health = hit.transform.GetComponent<HealthEnemy>();
             if (_health != null)
             {
-                _health.Damaging();
+                _health.Damaging(playerUnit.weaponDamage);
             }
             else
             {

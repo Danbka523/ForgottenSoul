@@ -10,6 +10,7 @@ public class BattleSystem : MonoBehaviour
 {   //UI
     public TextMeshProUGUI historyDialog;
     public TextMeshProUGUI turnDialog;
+    public TextMeshProUGUI currentHP;
     private List<string> historyMSGs;
     private int maxMSGs;
 
@@ -47,6 +48,7 @@ public class BattleSystem : MonoBehaviour
 
     public void UnitTurn()
     {
+        currentHP.text = $"Current HP:{playerUnit.currentHp}";
         CheckFire();
         CheckFreeze();
         if (state == BattleState.PLAYERTURN)
@@ -247,9 +249,6 @@ public class BattleSystem : MonoBehaviour
 
     private void ChangeDialog()
     {
-        if (state == BattleState.WIN)
-            historyDialog.text = "CONGRATULATIONS YOU WIN!";
-        if (state == BattleState.LOSE)
-            historyDialog.text = "better luck next time...";
+     
     }
 }

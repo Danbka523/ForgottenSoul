@@ -9,11 +9,13 @@ public class Unit : MonoBehaviour
     public int unitLVL;
 
     public int damage;
+    public int weaponDamage;
 
     public int maxHp;
     public int currentHp;
     public int defense;
     //private int maxDefense = 30;
+
 
     public bool isParalysed;
     public bool isFreezed;  
@@ -27,9 +29,10 @@ public class Unit : MonoBehaviour
 
     //обынчый урон
     public void DealPhysDamage(int amount, out int dmg, int percentBoost = 0) {
-        int currentDMG = amount + amount * percentBoost / 100+Random.Range(-5, 6);
+        int currentDMG = (amount + amount * percentBoost / 100+Random.Range(-5, 6));
+        currentDMG -= currentDMG * defense / 100;
         dmg=currentDMG;
-        currentHp -= (currentDMG - currentDMG * defense / 100);
+        currentHp -= (currentDMG);
         if (currentHp < 0) {
             currentHp = 0;
             isDead = true;

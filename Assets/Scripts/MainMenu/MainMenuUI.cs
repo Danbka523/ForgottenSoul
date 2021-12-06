@@ -37,17 +37,13 @@ public class MainMenuUI : MonoBehaviour
         resolutionDropdown.value = curr;
     }
 
-    public void ExitGame() {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.ExitPlaymode();
-#else
-        Application.Quit();
-#endif
-    }
-
-    public void StartGame() {
-        SceneManager.LoadScene(1);
-    }
+//    public void ExitGame() {
+//#if UNITY_EDITOR
+//        UnityEditor.EditorApplication.ExitPlaymode();
+//#else
+//        Application.Quit();
+//#endif
+//    }
     public void ResolutionChange()
     {
         int curr = resolutionDropdown.value;

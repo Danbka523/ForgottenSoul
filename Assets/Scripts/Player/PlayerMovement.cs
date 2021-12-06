@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded;
     [SerializeField] float speed;
     private Vector3 gravity;
+    public bool isPaused;
 
     private TerrainCollider terrainCollider;
     private CharacterController controller;
@@ -27,16 +28,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(transform.position, groundDistance*2, groundMask);
-
-        if (isGrounded)
+        if (!isPaused)
         {
-            MovePlayer();
-        }
-        else
-        controller.Move(gravity * Time.deltaTime);
+            //isGrounded = Physics.CheckSphere(transform.position, groundDistance*2, groundMask);
 
-        ChangeRotation();
+            if (isGrounded)
+            {
+                MovePlayer();
+            }
+            else
+                controller.Move(gravity * Time.deltaTime);
+
+            ChangeRotation();
+        }
     }
 
     void MovePlayer()
