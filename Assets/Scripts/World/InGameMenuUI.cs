@@ -11,6 +11,12 @@ public class InGameMenuUI : MonoBehaviour
     public PlayerMovement player;
     public TextMeshProUGUI hpText;
     public Unit playerUnit;
+    public GameObject startScreen;
+
+
+    void Start() {
+        player.isPaused = true;
+    }
 
     private void Update()
     {
@@ -49,4 +55,9 @@ public class InGameMenuUI : MonoBehaviour
         player.isPaused = true;
     }
 
+    public void OnStartClick()
+    {
+        startScreen.SetActive(false);
+        player.isPaused = false;
+    }
 }
