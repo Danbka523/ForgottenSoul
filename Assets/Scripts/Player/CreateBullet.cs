@@ -8,9 +8,17 @@ public class CreateBullet : MonoBehaviour
     [SerializeField] private AudioSource audio;
     [SerializeField] ParticleSystem particle;
     [SerializeField] PlayerMovement player;
+    private LineRenderer laser;
+
+    private void Awake()
+    {
+        laser = GetComponent<LineRenderer>();
+    }
+
     private void Update()
     {
         Shoot();
+        ShowLaser();
     }
     void Shoot()
     {
@@ -24,6 +32,17 @@ public class CreateBullet : MonoBehaviour
                 particle.Play();
             }
         }
+    }
+
+    void ShowLaser() { 
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit rayHit))
+        {
+            laser.SetPosition(0,ray.origin);
+            laser.SetPosition(1, rayHit.point);
+        }
+
     }
 
 }

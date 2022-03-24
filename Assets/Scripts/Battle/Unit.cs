@@ -27,6 +27,9 @@ public class Unit : MonoBehaviour
 
     public int negativeEffectRound;
 
+
+    public Inventory inventory;
+
     //обынчый урон
     public void DealPhysDamage(int amount, out int dmg, int percentBoost = 0) {
         int currentDMG = (amount + amount * percentBoost / 100+Random.Range(-5, 6));
@@ -80,5 +83,21 @@ public class Unit : MonoBehaviour
             currentHp = maxHp;
     }
 
-
+    public void DoAction(string name) {
+       Item item=inventory.itemDB.GetItem(name);
+        switch (item.id)
+        {
+            case 0:
+                HealUnit(item.stats["Heal"]);
+                inventory.RemoveItem(0);
+                Debug.Log("Unit heald");
+                break;
+           case  1:
+                break;
+           case  2:
+                break;
+            default:
+                break;
+        }
+    }
 }

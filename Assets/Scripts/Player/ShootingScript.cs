@@ -29,6 +29,7 @@ public class ShootingScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Linecast(lastPos, transform.position, out hit))
         {
+
             _health = hit.transform.GetComponent<HealthEnemy>();
             if (_health != null)
             {

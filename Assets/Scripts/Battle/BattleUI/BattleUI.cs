@@ -1,6 +1,7 @@
 using UnityEngine;
 public class BattleUI : MonoBehaviour
 {
+    public GameObject items;
     public GameObject skills;
     public GameObject mainUI;
     public GameObject endGame;
@@ -16,8 +17,14 @@ public class BattleUI : MonoBehaviour
 
     public void OnBackClick()
     {
-        skills.SetActive(false);
-        mainUI.SetActive(true);
+        //playerUnit.inventory.inventoryUI.CreateUI();
+        items.SetActive(true);
+        mainUI.SetActive(false);
+    }
+
+    public void OnItemsClick() { 
+        items.SetActive(true);
+        mainUI.SetActive(false);
     }
 
     private void Update()
