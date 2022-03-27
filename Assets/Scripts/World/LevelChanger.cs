@@ -24,4 +24,8 @@ public class LevelChanger : MonoBehaviour
     public void OnFadeCompleteExit() {
         Application.Quit();
     }
+
+    public void LoadStartLvl() {
+        SceneManager.LoadScene(2);
+    }
 }

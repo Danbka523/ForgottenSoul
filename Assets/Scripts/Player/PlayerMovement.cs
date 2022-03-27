@@ -40,17 +40,9 @@ public class PlayerMovement : MonoBehaviour
                 controller.Move(gravity * Time.deltaTime);
 
             ChangeRotation();
-            ShowLaser();
         }
     }
 
-    void ShowLaser()
-    {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
- 
-
-    }
 
     void MovePlayer()
     {

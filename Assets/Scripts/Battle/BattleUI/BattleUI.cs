@@ -18,8 +18,8 @@ public class BattleUI : MonoBehaviour
     public void OnBackClick()
     {
         //playerUnit.inventory.inventoryUI.CreateUI();
-        items.SetActive(true);
-        mainUI.SetActive(false);
+        items.SetActive(false);
+        mainUI.SetActive(true);
     }
 
     public void OnItemsClick() { 
