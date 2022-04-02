@@ -76,7 +76,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    //дечение
+    //лечение
     public void HealUnit(int amout, int percetBoost = 0) {
         currentHp += amout+amout*percetBoost/100;
         if (currentHp > maxHp)

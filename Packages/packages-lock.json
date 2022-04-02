@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.github.siccity.xnode": {
+      "version": "file:C:/PROJECT ASSETS/xNode/xNode-master",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.cinemachine": {
       "version": "2.6.11",
       "depth": 0,

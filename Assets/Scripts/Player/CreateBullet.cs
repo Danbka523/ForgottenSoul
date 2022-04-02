@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CreateBullet : MonoBehaviour
@@ -34,12 +32,13 @@ public class CreateBullet : MonoBehaviour
         }
     }
 
-    void ShowLaser() { 
+    void ShowLaser()
+    {
         Ray ray = new Ray(transform.position, transform.forward);
 
         if (Physics.Raycast(ray, out RaycastHit rayHit))
         {
-            laser.SetPosition(0,ray.origin);
+            laser.SetPosition(0, ray.origin);
             laser.SetPosition(1, rayHit.point);
         }
 

@@ -14,12 +14,14 @@ public class PlayerMovement : MonoBehaviour
 
     private TerrainCollider terrainCollider;
     private CharacterController controller;
+    [SerializeField]
+    private GameObject flashLight;
     [SerializeField] Camera cam;
     
 
 
     private void Start()
-    {
+    { 
         controller = transform.GetComponent<CharacterController>();
         terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
         gravity = new Vector3(0, -8, 0);
@@ -40,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
                 controller.Move(gravity * Time.deltaTime);
 
             ChangeRotation();
+            if (Input.GetKeyDown(KeyCode.L))
+                if (flashLight.active)
+                    flashLight.SetActive(false);
+                else
+                    flashLight.SetActive(true);
         }
     }
 

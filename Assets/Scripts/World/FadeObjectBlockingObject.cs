@@ -51,6 +51,7 @@ public class FadeObjectBlockingObject : MonoBehaviour
                     {
                         if (RunningCoroutines.ContainsKey(fadingObject))
                         {
+                            
                             if (RunningCoroutines[fadingObject] != null) // may be null if it's already ended
                             {
                                 StopCoroutine(RunningCoroutines[fadingObject]);
