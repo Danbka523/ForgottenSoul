@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
+    private Animator animator; //
+
     [SerializeField] private Transform target;
     [SerializeField] private float View_Angle;// угол обзора противника
     [SerializeField] private float nrm_distance;// дистанция между персонажем и противником , когда враг перестают преследовать
@@ -17,6 +19,8 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>(); //
+
         agent = GetComponent<NavMeshAgent>();
         angular_speed = agent.angularSpeed;
         agentTransform = agent.transform;
@@ -28,8 +32,11 @@ public class EnemyMovement : MonoBehaviour
     {
         if (In_sight() || Vector3.Distance(transform.position, target.position) <= distance_trigger)
         {
-            MoveToTarget();
+            
+
+            MoveToTarget(); 
         }
+        else animator.SetFloat("Move", 0); //
     }
 
 
@@ -48,7 +55,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void MoveToTarget()
     {
-
+        animator.SetFloat("Move", 1); //
         RotateToTarget();
         agent.SetDestination(target.position);
         if (Vector3.Distance(transform.position, target.position) <= distance_stop)

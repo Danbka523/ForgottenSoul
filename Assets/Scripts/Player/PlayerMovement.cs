@@ -12,14 +12,16 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 gravity;
     public bool isPaused;
 
-    private TerrainCollider terrainCollider;
+    private TerrainCollider terrainCollider; 
     private CharacterController controller;
     [SerializeField] Camera cam;
-    
 
+    private Animator animator; //
 
     private void Start()
     {
+        animator = GetComponent<Animator>(); //
+
         controller = transform.GetComponent<CharacterController>();
         terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
         gravity = new Vector3(0, -8, 0);
@@ -37,8 +39,11 @@ public class PlayerMovement : MonoBehaviour
                 MovePlayer();
             }
             else
+            {
                 controller.Move(gravity * Time.deltaTime);
 
+                
+            }
             ChangeRotation();
             ShowLaser();
         }
@@ -60,8 +65,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction.magnitude >= 0.1f)
         {
+
+            if (System.Math.Sign(transform.forward.x) == System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) == System.Math.Sign(direction.z)) //
+                animator.SetFloat("Move",0.5f); //
+            else if (System.Math.Sign(transform.forward.x) != System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) != System.Math.Sign(direction.z) ) //
+                animator.SetFloat("Move", 0f); //
+
             controller.Move(direction * speed * Time.deltaTime);
         }
+        else animator.SetFloat("Move", 0.25f); //
 
     }
 

@@ -33,10 +33,13 @@ public class ShootingScript : MonoBehaviour
             _health = hit.transform.GetComponent<HealthEnemy>();
             if (_health != null)
             {
+
                 _health.Damaging(playerUnit.weaponDamage);
+
             }
             else
             {
+
                 Quaternion rotation_decal = Quaternion.FromToRotation(Vector3.up, hit.normal);
                 GameObject d = Instantiate(prefab_decal, hit.point, rotation_decal);
 

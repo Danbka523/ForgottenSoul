@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class HealthEnemy : MonoBehaviour
 {
+    [SerializeField] private AudioSource audio; //
+
     public Slider hpSlider;
     public Unit playerUnit;
 
@@ -19,6 +21,8 @@ public class HealthEnemy : MonoBehaviour
 
     public void Damaging(int damage)
     {
+        audio.Play();
+
         if (health <= 20)
         {
             Destroy(this.gameObject);
