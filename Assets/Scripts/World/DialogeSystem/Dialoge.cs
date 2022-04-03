@@ -19,7 +19,7 @@ public class Dialoge : MonoBehaviour
     [SerializeField]
     GameObject card;
 
-    bool is_end = false;
+    //bool is_end = false;
     private void Start()
     {
         speakers.Add("Игрок");

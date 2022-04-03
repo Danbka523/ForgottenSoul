@@ -25,7 +25,7 @@ public class LevelChanger : MonoBehaviour
         Application.Quit();
     }
 
-    public void LoadStartLvl() {
-        SceneManager.LoadScene(2);
+    public void LoadLvl() {
+        SceneManager.LoadScene(lvlToLoad);
     }
 }

@@ -17,11 +17,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject flashLight;
     [SerializeField] Camera cam;
-    
 
+    private Animator animator; //
 
     private void Start()
-    { 
+    {
+        animator = GetComponent<Animator>(); //
+
         controller = transform.GetComponent<CharacterController>();
         terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
         gravity = new Vector3(0, -8, 0);
@@ -48,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
                 else
                     flashLight.SetActive(true);
         }
+        else 
+            animator.SetFloat("Move", 0.25f); 
+
     }
 
 
@@ -57,10 +62,19 @@ public class PlayerMovement : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        if (direction.magnitude >= 0.1f)
-        {
-            controller.Move(direction * speed * Time.deltaTime);
-        }
+
+            if (direction.magnitude >= 0.1f)
+            {
+
+                if (System.Math.Sign(transform.forward.x) == System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) == System.Math.Sign(direction.z)) //
+                    animator.SetFloat("Move", 0.5f); //
+                else if (System.Math.Sign(transform.forward.x) != System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) != System.Math.Sign(direction.z)) //
+                    animator.SetFloat("Move", 0f); //
+
+                controller.Move(direction * speed * Time.deltaTime);
+            }
+            else 
+                animator.SetFloat("Move", 0.25f); //
 
     }
 
