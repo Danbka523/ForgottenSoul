@@ -6,11 +6,12 @@ public class LvlTrigger : MonoBehaviour
 {
     [SerializeField]
     LevelChanger levelChanger;
-   // public Animator anim;
+    [SerializeField]
+    Animator anim;
 
     private void Start()
     {
-        //anim = GameObject.Find("BlackFade").GetComponent<Animator>();
+        
     }
     private void OnTriggerEnter(Collider other)
     {

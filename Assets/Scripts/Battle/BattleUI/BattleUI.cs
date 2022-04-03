@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 public class BattleUI : MonoBehaviour
 {
     public GameObject items;
@@ -8,6 +10,7 @@ public class BattleUI : MonoBehaviour
     public GameObject pauseMenu;
     public Unit playerUnit;
     public Unit enemyUnit;
+    public GameObject errMsg;
 
     public void OnSkillsClick()
     {
@@ -18,13 +21,21 @@ public class BattleUI : MonoBehaviour
     public void OnBackClick()
     {
         //playerUnit.inventory.inventoryUI.CreateUI();
+        skills.SetActive(false);
         items.SetActive(false);
         mainUI.SetActive(true);
     }
 
-    public void OnItemsClick() { 
-        items.SetActive(true);
-        mainUI.SetActive(false);
+    public void OnItemsClick() {
+        //items.SetActive(true);
+        StartCoroutine("ErrMsg");
+        //mainUI.SetActive(false);
+    }
+
+    IEnumerator ErrMsg() { 
+        errMsg.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        errMsg.SetActive(false);
     }
 
     private void Update()

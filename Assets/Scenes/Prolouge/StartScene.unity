@@ -1416,7 +1416,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1338433430}
           m_TargetAssemblyTypeName: LevelChanger, Assembly-CSharp
-          m_MethodName: LoadStartLvl
+          m_MethodName: LoadLvl
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

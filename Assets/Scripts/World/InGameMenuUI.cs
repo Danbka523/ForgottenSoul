@@ -15,7 +15,7 @@ public class InGameMenuUI : MonoBehaviour
 
 
     void Start() {
-        player.isPaused = true;
+   
     }
 
     private void Update()
@@ -47,6 +47,7 @@ public class InGameMenuUI : MonoBehaviour
     }
 
     public void OnContinueClick() {
+        player.isPaused = false;
         pauseMenu.SetActive(false);
     }
 
