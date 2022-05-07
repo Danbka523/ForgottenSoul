@@ -31,6 +31,7 @@ public class Dialoge : MonoBehaviour
         
     }
 
+
     private void DisplayDialog(List<string> dialogs, int idx) {
         if (idx < dialogs.Count)
         {
@@ -43,6 +44,8 @@ public class Dialoge : MonoBehaviour
     private void Update() {
         if (Input.anyKey)
             delay = 0;
+        if (Input.GetKey(KeyCode.Space))
+            SceneManager.LoadScene(3);
     }
 
     IEnumerator display_text(string str,int i) {

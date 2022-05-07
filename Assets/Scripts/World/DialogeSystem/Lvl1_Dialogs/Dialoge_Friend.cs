@@ -38,6 +38,15 @@ public class Dialoge_Friend : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        { 
+            StopAllCoroutines();
+            StartCoroutine(end_dialoge());
+        }    
+    }
+
     private void DisplayDialog(List<string> dialogs, int idx)
     {
         isTriggered = true;
@@ -48,7 +57,7 @@ public class Dialoge_Friend : MonoBehaviour
         }
         else
         {
-            StartCoroutine("end_dialoge");
+            StartCoroutine(end_dialoge(3));
         }
     }
 
@@ -76,9 +85,9 @@ public class Dialoge_Friend : MonoBehaviour
     }
 
 
-    IEnumerator end_dialoge()
+    IEnumerator end_dialoge(float delay=0)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(delay);
         playerMovement.isPaused = false;
         player_trigger.SetActive(true);
         dialoge.SetActive(false);

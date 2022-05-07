@@ -38,7 +38,7 @@ public class Dialoge_Note : MonoBehaviour
 
     private void DisplayDialog(List<string> dialogs, int idx)
     {
-        isTriggered = true;
+ 
         dialoge.SetActive(true);
         if (idx < dialogs.Count)
         {
@@ -46,8 +46,17 @@ public class Dialoge_Note : MonoBehaviour
         }
         else
         {
-            StartCoroutine("end_dialoge");
+            StartCoroutine(end_dialoge(3));
 
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            StopAllCoroutines();
+            StartCoroutine(end_dialoge());
         }
     }
 
@@ -69,15 +78,20 @@ public class Dialoge_Note : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        playerMovement.isPaused = true;
+      
+
         if (!isTriggered)
+        {
+            playerMovement.isPaused = true;
             DisplayDialog(dialogs, 0);
+        }
+        isTriggered = true;
     }
 
 
-    IEnumerator end_dialoge()
+    IEnumerator end_dialoge(float delay=0)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(delay);
         playerMovement.isPaused = false;
         weapon.SetActive(true);
         dialoge.SetActive(false);

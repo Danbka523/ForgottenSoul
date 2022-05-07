@@ -34,6 +34,15 @@ public class Dialoge_Solo : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        { 
+            StopAllCoroutines();
+            StartCoroutine(end_dialoge());
+        }
+    }
+
     private void DisplayDialog(List<string> dialogs, int idx)
     {
         isTriggered = true;
@@ -44,10 +53,12 @@ public class Dialoge_Solo : MonoBehaviour
         }
         else
         {
-            StartCoroutine("end_dialoge");
+            StartCoroutine(end_dialoge(3));
 
         }
     }
+
+
 
     IEnumerator display_text(string str, int i)
     {
@@ -73,9 +84,9 @@ public class Dialoge_Solo : MonoBehaviour
     }
 
 
-    IEnumerator end_dialoge()
+    IEnumerator end_dialoge(float delay=0)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(delay);
         playerMovement.isPaused = false;
         dialoge.SetActive(false);
         friend.SetActive(false);

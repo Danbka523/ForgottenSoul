@@ -7,7 +7,8 @@ public class HealthEnemy : MonoBehaviour
 {
 
     [SerializeField] private AudioSource damage_audio; //
-   // [SerializeField] private AudioSource death_audio; //
+                                                       // [SerializeField] private AudioSource death_audio; //
+    [SerializeField] ParticleSystem blood;
 
     public Slider hpSlider;
     public Unit playerUnit;
@@ -24,7 +25,7 @@ public class HealthEnemy : MonoBehaviour
     public void Damaging(int damage)
     {
         damage_audio.Play();
-
+        blood.Play();
         if (health <= 20)
         {
         //    death_audio.Play();

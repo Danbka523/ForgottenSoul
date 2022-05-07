@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
 {
     private Animator animator; //
 
-    [SerializeField] private Transform target;
+    private Transform target;
     [SerializeField] private float View_Angle;// угол обзора противника
     [SerializeField] private float nrm_distance;// дистанция между персонажем и противником , когда враг перестают преследовать
     private float angular_speed;// скорость поворота
@@ -20,6 +20,8 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>(); //
+
+        target = GameObject.Find("Player").transform;
 
         agent = GetComponent<NavMeshAgent>();
         angular_speed = agent.angularSpeed;
