@@ -5592,6 +5592,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4135338886395852, guid: b171e372a9c9ca84b9633f9e64b653c8, type: 3}
   m_PrefabInstance: {fileID: 433745620}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &436224219 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3389524098899119238, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
+  m_PrefabInstance: {fileID: 1519419676}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44980be85b1ab140bbc5b44f3d4f5e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &439571866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17109,6 +17120,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3389524098899119238, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3598461477289094128, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7828569944591032050, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
+      propertyPath: empty
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ee0b0eaac4bf454faa77cead6cbf236, type: 3}
+    - target: {fileID: 7828569944591032050, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
+      propertyPath: shoot
+      value: 
+      objectReference: {fileID: 8300000, guid: 377da9e32143d514ca1f7d3c99574eb0, type: 3}
     - target: {fileID: 7828569944977951097, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.21
@@ -17201,6 +17228,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.x
       value: 0.3438457
       objectReference: {fileID: 0}
+    - target: {fileID: 8750172056649274538, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 436224219}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
 --- !u!1 &1521578831 stripped

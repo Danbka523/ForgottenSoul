@@ -265,6 +265,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab_bullet: {fileID: 9121522451999154517, guid: 238ab43cf92527347906151d2a6433bf, type: 3}
   audio: {fileID: 3598461477289094128}
+  shoot: {fileID: 8300000, guid: 377da9e32143d514ca1f7d3c99574eb0, type: 3}
+  empty: {fileID: 8300000, guid: 4ee0b0eaac4bf454faa77cead6cbf236, type: 3}
+  reload_sound: {fileID: 8300000, guid: 52504c28eb024834083076524a333604, type: 3}
   particle: {fileID: 801354218260553722}
   player: {fileID: 7828569944977951102}
 --- !u!1 &1354133477202493207
