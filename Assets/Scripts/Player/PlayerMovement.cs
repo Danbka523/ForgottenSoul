@@ -17,8 +17,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject flashLight;
     [SerializeField] Camera cam;
+    [SerializeField] AudioClip foot_steps;
+    [SerializeField] AudioSource audio;
+
 
     private Animator animator; //
+    private bool isSteping;
 
     private void Start()
     {
@@ -63,18 +67,22 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
 
-            if (direction.magnitude >= 0.1f)
-            {
+        if (direction.magnitude >= 0.1f)
+        {
+            if (!audio.isPlaying)
+                audio.PlayOneShot(foot_steps);
+            if (System.Math.Sign(transform.forward.x) == System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) == System.Math.Sign(direction.z)) //
+                animator.SetFloat("Move", 0.5f); //
+            else if (System.Math.Sign(transform.forward.x) != System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) != System.Math.Sign(direction.z)) //
+                animator.SetFloat("Move", 0f); //
 
-                if (System.Math.Sign(transform.forward.x) == System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) == System.Math.Sign(direction.z)) //
-                    animator.SetFloat("Move", 0.5f); //
-                else if (System.Math.Sign(transform.forward.x) != System.Math.Sign(direction.x) || System.Math.Sign(transform.forward.z) != System.Math.Sign(direction.z)) //
-                    animator.SetFloat("Move", 0f); //
-
-                controller.Move(direction * speed * Time.deltaTime);
-            }
-            else 
-                animator.SetFloat("Move", 0.25f); //
+            controller.Move(direction * speed * Time.deltaTime);
+        }
+        else
+        {
+            audio.Stop();
+            animator.SetFloat("Move", 0.25f); //
+        }
 
     }
 

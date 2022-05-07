@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class HealthEnemy : MonoBehaviour
 {
 
-    [SerializeField] private AudioSource damage_audio; //
-                                                       // [SerializeField] private AudioSource death_audio; //
+    [SerializeField] private AudioSource audio; //
+    [SerializeField] private AudioClip death_clip;
+    [SerializeField] AudioClip damage_clip;
     [SerializeField] ParticleSystem blood;
 
     public Slider hpSlider;
@@ -24,12 +25,12 @@ public class HealthEnemy : MonoBehaviour
 
     public void Damaging(int damage)
     {
-        damage_audio.Play();
+        audio.PlayOneShot(damage_clip);
         blood.Play();
         if (health <= 20)
         {
-        //    death_audio.Play();
-            Destroy(this.gameObject);
+            
+            StartCoroutine("destroy");
         }
         else
         {
@@ -44,4 +45,11 @@ public class HealthEnemy : MonoBehaviour
             playerUnit.DealDamage(enemyDamage);
    
     }
+
+    IEnumerator destroy() {
+        audio.PlayOneShot(death_clip);
+        yield return new WaitForSeconds(0.8f);
+        Destroy(this.gameObject);
+    }
+
 }

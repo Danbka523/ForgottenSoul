@@ -1255,6 +1255,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: be80ac55b6877724fa8c1b8ddd66942e, type: 2}
+    - target: {fileID: 7828569944591032050, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
+      propertyPath: reload_sound
+      value: 
+      objectReference: {fileID: 8300000, guid: 52504c28eb024834083076524a333604, type: 3}
     - target: {fileID: 7828569944977951097, guid: fc60231f86e108f44a2f8a58650976d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.01
