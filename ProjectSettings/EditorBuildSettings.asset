@@ -9,11 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Prolouge/StartScene.unity
-    guid: 55deff2671c539446b1df9470a0d3f3b
-  - enabled: 1
     path: Assets/Scenes/Prolouge/Prolouge.unity
-    guid: 812e888f953966c4588c9df39fef9baa
+    guid: 55deff2671c539446b1df9470a0d3f3b
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 1bef2180b5e6f0247bcad84408e6747f
@@ -21,6 +18,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Level2.unity
     guid: 590cb6d078ce910438d17f1e96321236
   - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: c9064eb46250b8f499094548ba9501c3
+  - enabled: 1
+    path: Assets/Scenes/BossFight.unity
+    guid: cbed75cfede8a40469461a5178085959
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: 812e888f953966c4588c9df39fef9baa
+  - enabled: 0
     path: Assets/Scenes/Batlle.unity
     guid: 630f016e26bc54c49bee4c08cb6b290c
   - enabled: 0

@@ -16,7 +16,8 @@ public class LvlTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player")) {
-            levelChanger.LoadLvl();
+            Debug.Log("touched");
+            levelChanger.FadeToLvl();
         }
     }
 }

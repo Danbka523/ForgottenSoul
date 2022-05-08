@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelChanger : MonoBehaviour
 {
-    private Animator anim;
+    [SerializeField] Animator anim;
     public int lvlToLoad;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
     }
 
     public void FadeToLvl() {
@@ -27,5 +27,11 @@ public class LevelChanger : MonoBehaviour
 
     public void LoadLvl() {
         SceneManager.LoadScene(lvlToLoad);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            FadeToLvl();
     }
 }
