@@ -21,14 +21,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Level3.unity
     guid: c9064eb46250b8f499094548ba9501c3
   - enabled: 1
-    path: Assets/Scenes/BossFight.unity
-    guid: cbed75cfede8a40469461a5178085959
+    path: Assets/Scenes/Level4.unity
+    guid: a0c8143f17064d641ae641bda36158df
+  - enabled: 1
+    path: Assets/Scenes/Batlle.unity
+    guid: 630f016e26bc54c49bee4c08cb6b290c
   - enabled: 1
     path: Assets/Scenes/EndScene.unity
     guid: 812e888f953966c4588c9df39fef9baa
   - enabled: 0
-    path: Assets/Scenes/Batlle.unity
-    guid: 630f016e26bc54c49bee4c08cb6b290c
+    path: Assets/Scenes/BossFight.unity
+    guid: cbed75cfede8a40469461a5178085959
   - enabled: 0
     path: Assets/Scenes/level1(office).unity
     guid: 338f8f1047f76e8478eee50ea2d25dd0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-public class Dialoge : MonoBehaviour
+public class EndDialouge : MonoBehaviour
 {
     List<string> dialogs = new List<string>();
     List<string> speakers = new List<string>();
@@ -15,6 +15,9 @@ public class Dialoge : MonoBehaviour
     float delay;
 
     [SerializeField]
+    GameObject background;
+
+    [SerializeField]
     Animator fade;
     [SerializeField]
     GameObject card;
@@ -22,17 +25,18 @@ public class Dialoge : MonoBehaviour
     //bool is_end = false;
     private void Start()
     {
-        speakers.Add("Игрок");
-        speakers.Add("Телевизор");
-        dialogs.Add("И что это было?");
+        speakers.Add("Игрок:");
+        speakers.Add("Телевизор:");
+        dialogs.Add("*тяжелое дыхание*");
         dialogs.Add("Корпорация Ascension. В основном занята разработками в сфере искусственного интеллекта и биотехнологий. Одной из ее самых перспективных технологий, все еще находящихся в стадии разработки, являются чипы поведенческого моделирования, позволяющие создавать ии, своим поведением неотличимый от человека.");
-        dialogs.Add("Ах... Неважно... Пора собираться.");
+        dialogs.Add("Что же произошло?");
         DisplayDialog(dialogs, 0);
-        
+
     }
 
 
-    private void DisplayDialog(List<string> dialogs, int idx) {
+    private void DisplayDialog(List<string> dialogs, int idx)
+    {
         if (idx < dialogs.Count)
         {
             StartCoroutine(display_text(dialogs[idx], idx));
@@ -41,14 +45,19 @@ public class Dialoge : MonoBehaviour
             StartCoroutine("display_delay_fade");
     }
 
-    private void Update() {
+    private void Update()
+    {
         if (Input.anyKey)
             delay = 0;
         if (Input.GetKey(KeyCode.Space))
-            SceneManager.LoadScene(3);
+        { 
+            StopAllCoroutines();
+            StartCoroutine("display_delay_fade");
+        }    
     }
 
-    IEnumerator display_text(string str,int i) {
+    IEnumerator display_text(string str, int i)
+    {
         yield return new WaitForSeconds(3f);
         speaker_text.text = "";
         if (i % 2 == 0)
@@ -63,15 +72,17 @@ public class Dialoge : MonoBehaviour
         DisplayDialog(dialogs, ++i);
     }
 
-    IEnumerator display_delay_fade() { 
+    IEnumerator display_delay_fade()
+    {
         yield return new WaitForSeconds(3);
         fade.Play("fadeIn");
         yield return new WaitForSeconds(2);
         fade.Play("fadeOut");
+        background.SetActive(false);
         card.SetActive(true);
-        yield return new WaitForSeconds(3);
-        fade.Play("fadeIn");
-        card.SetActive(false);
-        SceneManager.LoadScene(3);
+        //yield return new WaitForSeconds(3);
+        //fade.Play("fadeIn");
+        //card.SetActive(false);
+        //SceneManager.LoadScene(3);
     }
 }

@@ -11,6 +11,8 @@ public class BattleSystem : MonoBehaviour
     public TextMeshProUGUI historyDialog;
     public TextMeshProUGUI turnDialog;
     public TextMeshProUGUI currentHP;
+    public TextMeshProUGUI currentSP;
+
     private List<string> historyMSGs;
     private int maxMSGs;
 
@@ -28,8 +30,11 @@ public class BattleSystem : MonoBehaviour
 
     private int realDamage;
 
+    System.Random random = new System.Random();
+
     void Start()
     {
+        
         historyMSGs = new List<string>();
         maxMSGs = 5;
         state = BattleState.START;
@@ -48,7 +53,10 @@ public class BattleSystem : MonoBehaviour
 
     public void UnitTurn()
     {
+        playerUnit.AddSp(7);
+        enemyUnit.AddSp(7);
         currentHP.text = $"Current HP:{playerUnit.currentHp}";
+        currentSP.text = $"Current SP:{playerUnit.currentSp}";
         CheckFire();
         CheckFreeze();
         if (state == BattleState.PLAYERTURN)
@@ -73,28 +81,51 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    public void heal() {
+        Actions action = Actions.HEAL;
+        if (state == BattleState.PLAYERTURN)
+        {
+            playerUnit.HealUnit(30);
+            ChangeDialog(action, playerUnit.unitName, enemyUnit.unitName, 30);
+            state = BattleState.ENEMYTURN;
+            UnitTurn();
+        }
+
+    }
+
+    private void enemey_heal() {
+        Actions action = Actions.HEAL;
+        enemyUnit.HealUnit(30);
+        ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, 30);
+        state = BattleState.PLAYERTURN;
+        UnitTurn();
+    }
+
+
     //обычная атака
     public void PhysAttack()
     {
         Actions action = Actions.DAMAGE;
         if (state == BattleState.PLAYERTURN)
         {
+            enemyUnit.physEffect.Play();
             enemyUnit.DealPhysDamage(playerUnit.damage,out realDamage);
             ChangeDialog(action, playerUnit.unitName, enemyUnit.unitName, realDamage);
             state = BattleState.ENEMYTURN;
             UnitTurn();
         }
-        else if (state == BattleState.ENEMYTURN)
-        {
-            playerUnit.DealPhysDamage(enemyUnit.damage,out realDamage);
-            ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, realDamage);
-            state = BattleState.PLAYERTURN;
-            UnitTurn();
-        }
-        else
-            return;
     }
-    //огненная атака (wip)
+
+   private void EnemyPhysAttack() {
+        playerUnit.physEffect.Play();
+        Actions action = Actions.DAMAGE;
+        playerUnit.DealPhysDamage(enemyUnit.damage, out realDamage);
+        ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, realDamage);
+        state = BattleState.PLAYERTURN;
+        UnitTurn();
+    }
+
+
     //fire
     //========================//
     public void FireAttack()
@@ -102,27 +133,30 @@ public class BattleSystem : MonoBehaviour
         Actions action = Actions.DAMAGE;
         if (state == BattleState.PLAYERTURN)
         {
+            enemyUnit.fireAttEffect.Play();
             enemyUnit.DealFireDamage(playerUnit.damage, roundCounter, out realDamage);
             ChangeDialog(action, playerUnit.unitName, enemyUnit.unitName, realDamage);
             state = BattleState.ENEMYTURN;
             UnitTurn();
         }
-        else if (state == BattleState.ENEMYTURN)
-        {
-            playerUnit.DealFireDamage(enemyUnit.damage, roundCounter,out realDamage);
-            ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName,realDamage);
-            state = BattleState.PLAYERTURN;
-            UnitTurn();
-        }
-        else
-            return;
     }
+
+    private void EnemyFireAttack() {
+        playerUnit.fireAttEffect.Play();
+        Actions action = Actions.DAMAGE;
+        playerUnit.DealFireDamage(enemyUnit.damage, roundCounter, out realDamage);
+        ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, realDamage);
+        state = BattleState.PLAYERTURN;
+        UnitTurn();
+    }
+
 
     private void CheckFire()
     {
         //проверка игрока
         if (playerUnit.isFired)
         {
+            playerUnit.fireEffect.Play();
             playerUnit.DealDamage(8);
             ChangeDialog(Actions.FIRE, "", playerUnit.unitName);
             if (roundCounter - playerUnit.negativeEffectRound == 3)
@@ -134,6 +168,7 @@ public class BattleSystem : MonoBehaviour
         //проверка противнкиа
         if (enemyUnit.isFired)
         {
+            enemyUnit.fireEffect.Play();
             ChangeDialog(Actions.FIRE, "", enemyUnit.unitName);
             enemyUnit.DealDamage(8);
             if (roundCounter - enemyUnit.negativeEffectRound == 3)
@@ -147,7 +182,7 @@ public class BattleSystem : MonoBehaviour
     //========================//
 
 
-    //ледяная атака(wip)
+    
     //ice
     //========================//
     public void IceAttack()
@@ -155,29 +190,32 @@ public class BattleSystem : MonoBehaviour
         Actions action = Actions.DAMAGE;
         if (state == BattleState.PLAYERTURN)
         {
+            enemyUnit.frozenAttEffect.Play();
             enemyUnit.DealIceDamage(playerUnit.damage, roundCounter,out realDamage);
             ChangeDialog(action, playerUnit.unitName, enemyUnit.unitName, realDamage);
             state = BattleState.ENEMYTURN;
             UnitTurn();
         }
-        else if (state == BattleState.ENEMYTURN)
-        {
-            playerUnit.DealIceDamage(enemyUnit.damage, roundCounter,out realDamage);
-            ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, realDamage);
-            state = BattleState.PLAYERTURN;
-            UnitTurn();
-        }
-        else
-            return;
     }
+
+    private void EnemyIceAttack() {
+        playerUnit.frozenAttEffect.Play();
+        Actions action = Actions.DAMAGE;
+        playerUnit.DealIceDamage(enemyUnit.damage, roundCounter, out realDamage);
+        ChangeDialog(action, enemyUnit.unitName, playerUnit.unitName, realDamage);
+        state = BattleState.PLAYERTURN;
+        UnitTurn();
+    }
+
 
     private void CheckFreeze()
     {
         //проверка игрока
         if (playerUnit.isFreezed && state == BattleState.PLAYERTURN)
         {
+            playerUnit.frozenEffect.Play();
             state = BattleState.ENEMYTURN;
-            if (roundCounter - playerUnit.negativeEffectRound == 3)
+            if (roundCounter - playerUnit.negativeEffectRound == 2)
             {
                 playerUnit.isFreezed = false;
                 playerUnit.isNegatived = false;
@@ -186,8 +224,9 @@ public class BattleSystem : MonoBehaviour
         //проверка противнкиа
         if (enemyUnit.isFreezed && state == BattleState.ENEMYTURN)
         {
+            enemyUnit.frozenEffect.Play();
             state = BattleState.PLAYERTURN;
-            if (roundCounter - enemyUnit.negativeEffectRound == 3)
+            if (roundCounter - enemyUnit.negativeEffectRound == 2)
             {
                 enemyUnit.isFreezed = false;
                 enemyUnit.isNegatived = false;
@@ -206,7 +245,23 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         yield return new WaitForSeconds(2.0f);
-        PhysAttack();
+        if (enemyUnit.currentHp < 40)
+            enemey_heal();
+        int type = random.Next(2);
+        if (enemyUnit.currentSp > 30)
+        switch (type)
+        {
+            case 0:
+                EnemyFireAttack();
+                    break;
+            case 1:
+                EnemyIceAttack();
+                    break;
+            default:
+                break;
+        }
+        else 
+            EnemyPhysAttack(); 
     }
 
     //enemy
@@ -233,7 +288,7 @@ public class BattleSystem : MonoBehaviour
                 str = $"{to} is freese\n";
                 break;
             case Actions.HEAL:
-                str = $"{from} healed {to} on {hp} hp\n";
+                str = $"{from} healed on {hp} hp\n";
                 break;
             default:
                 break;

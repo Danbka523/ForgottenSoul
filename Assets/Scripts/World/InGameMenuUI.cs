@@ -33,12 +33,13 @@ public class InGameMenuUI : MonoBehaviour
                 player.isPaused = true;
             }
         }
-        hpText.text=$"Current HP:{playerUnit.currentHp}";
+      //  hpText.text=$"Current HP:{playerUnit.currentHp}";
         if (playerUnit.isDead)
             EndGame();
     }
 
     public void OnExitClick() {
+        Debug.Log("Clicked");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.ExitPlaymode();
 #else

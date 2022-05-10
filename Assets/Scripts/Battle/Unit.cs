@@ -14,6 +14,8 @@ public class Unit : MonoBehaviour
     public int maxHp;
     public int currentHp;
     public int defense;
+    public int maxSp;
+    public int currentSp;
     //private int maxDefense = 30;
 
 
@@ -29,6 +31,14 @@ public class Unit : MonoBehaviour
 
 
     public Inventory inventory;
+
+    [SerializeField] ParticleSystem healEffect;
+    public ParticleSystem fireEffect;
+    public ParticleSystem frozenEffect;
+    public ParticleSystem fireAttEffect;
+    public ParticleSystem frozenAttEffect;
+    public ParticleSystem physEffect;
+
 
     //обынчый урон
     public void DealPhysDamage(int amount, out int dmg, int percentBoost = 0) {
@@ -51,6 +61,7 @@ public class Unit : MonoBehaviour
             isNegatived = true;
             negativeEffectRound = curRound;
         }
+        currentSp -= 20;
     }
 
     //ледяной урон
@@ -63,6 +74,7 @@ public class Unit : MonoBehaviour
             isNegatived = true;
             negativeEffectRound = curRound;
         }
+        currentSp -= 20;
     }
 
     //урон который игнорирует показатель брони
@@ -81,7 +93,17 @@ public class Unit : MonoBehaviour
         currentHp += amout+amout*percetBoost/100;
         if (currentHp > maxHp)
             currentHp = maxHp;
+        healEffect.Play();
+        currentSp -= 15;
     }
+
+    public void AddSp(int amount) {
+        currentSp += amount;
+        if (currentSp > maxSp)
+            currentSp = maxSp;
+
+    }
+
 
     public void DoAction(string name) {
        Item item=inventory.itemDB.GetItem(name);

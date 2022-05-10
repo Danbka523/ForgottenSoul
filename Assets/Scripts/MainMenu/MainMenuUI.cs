@@ -22,6 +22,7 @@ public class MainMenuUI : MonoBehaviour
     //ui
     public GameObject mainMenu;
     public GameObject settings;
+    public GameObject help;
     private void Start()
     {
         int curr=0;
@@ -67,6 +68,12 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnBackClick() {
         settings.SetActive(false);
+        help.SetActive(false);
         mainMenu.SetActive(true);
+    }
+
+    public void OnHelpClick() { 
+          help.SetActive(true);
+        mainMenu.SetActive(false);
     }
 }

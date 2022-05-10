@@ -14,7 +14,7 @@ public class CreateBullet : MonoBehaviour
     [SerializeField] ParticleSystem particle;
     [SerializeField] PlayerMovement player;
     private LineRenderer laser;
-    private int ammo;
+    public int ammo;
     private bool isReloading;
     private void Awake()
     {

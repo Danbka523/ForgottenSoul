@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 public class BattleUI : MonoBehaviour
@@ -71,7 +72,7 @@ public class BattleUI : MonoBehaviour
 
     public void EndGame()
     {
-        endGame.SetActive(true);
+        SceneManager.LoadScene(7);
     }
 
 }

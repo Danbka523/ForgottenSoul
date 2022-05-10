@@ -14,8 +14,10 @@ public class EnemyMovement : MonoBehaviour
     private NavMeshAgent agent;
     private Transform agentTransform;
     private float distance_trigger = 1.0f;// враг преследует несмотря на поле видимости 
-    private float distance_stop = 3.0f;//расстояние от персонажа, которое враги не могут сократить
+    private float distance_stop = 1.5f;//расстояние от персонажа, которое враги не могут сократить
     private Rigidbody rig_enemy;
+
+    [SerializeField] PlayerMovement player;
 
     void Start()
     {
@@ -32,11 +34,12 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        if (In_sight() || Vector3.Distance(transform.position, target.position) <= distance_trigger)
+        if (In_sight() || Vector3.Distance(transform.position, target.position) <= distance_trigger )
         {
             MoveToTarget();
         }
         else animator.SetFloat("Move", 0); //
+   
     }
 
 
@@ -55,18 +58,28 @@ public class EnemyMovement : MonoBehaviour
 
     private void MoveToTarget()
     {
-        animator.SetFloat("Move", 1); //
-        RotateToTarget();
-        agent.SetDestination(target.position);
-        if (Vector3.Distance(transform.position, target.position) <= distance_stop)
+        if (!player.isPaused)
         {
+            animator.SetFloat("Move", 1); //
+            RotateToTarget();
+            agent.SetDestination(target.position);
+            if (Vector3.Distance(transform.position, target.position) <= distance_stop)
+            {
 
+                agent.isStopped = true;
+                rig_enemy.velocity = Vector3.zero;
+                rig_enemy.angularVelocity = Vector3.zero;
+
+            }
+            else agent.isStopped = false;
+        }
+        else
+        {
             agent.isStopped = true;
             rig_enemy.velocity = Vector3.zero;
             rig_enemy.angularVelocity = Vector3.zero;
-
         }
-        else agent.isStopped = false;
+
 
     }
     private void RotateToTarget()
